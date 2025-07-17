@@ -1,0 +1,14 @@
+[project]
+name = "ats-resume-checker"
+version = "0.1.0"
+description = "ATS Resume Checker using LangGraph, Streamlit, LangChain, and Gemini API"
+authors = ["Your Name <your.email@example.com>"]
+dependencies = [
+    "streamlit>=1.32.0",
+    "langgraph",
+    "langchain",
+    "langchain-google-genai",
+    "pypdf2",
+    "python-dotenv",
+]
+requires-python = ">=3.9"
