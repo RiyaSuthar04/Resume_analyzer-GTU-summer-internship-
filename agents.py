@@ -58,15 +58,22 @@ def section_completeness_agent(llm, resume_text, job_desc):
     return run_agent(llm, prompt, resume_text, job_desc, "section completeness")
 
 def analyze_resume(resume_text, job_desc, api_key):
+    print("🔐 Using Gemini API Key:", api_key[:8], "...")
     llm = get_gemini_llm(api_key)
+
     results = {
         "impact": impact_agent(llm, resume_text, job_desc),
         "brevity": brevity_agent(llm, resume_text, job_desc),
         "style": style_agent(llm, resume_text, job_desc),
         "section_completeness": section_completeness_agent(llm, resume_text, job_desc),
     }
+
+    print("✅ All agents ran successfully.")
+    print("📊 Raw Results:", results)
+
     overall_score = round(sum(r["score"] for r in results.values()) / len(results), 1)
     return results, overall_score
+
 
 def answer_question(api_key, resume_text, job_desc, user_question):
     llm = get_gemini_llm(api_key)

@@ -2,13 +2,18 @@ import streamlit as st
 from PyPDF2 import PdfReader
 import re
 
-def extract_text_from_pdf(resume_file):
+import fitz  # PyMuPDF
+
+def extract_text_from_pdf(uploaded_file):
+    text = ""
     try:
-        pdf_reader = PdfReader(resume_file)
-        return "\n".join(page.extract_text() or "" for page in pdf_reader.pages)
+        doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+        for page in doc:
+            text += page.get_text()
+        return text.strip()
     except Exception as e:
-        st.error(f"Error reading PDF: {e}")
-        return None
+        return f"Error reading PDF: {e}"
+
 
 def extract_score_feedback(text):
     score_match = re.search(r'score\s*[:=\-]?\s*(\d+)', text, re.IGNORECASE)
